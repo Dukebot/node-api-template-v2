@@ -5,7 +5,7 @@ const rateLimit = require('express-rate-limit')
 const mongoose = require('mongoose')
 
 const Config = require('./src/config')
-const Controller = require('./src/controller')
+const Router = require('./src/router')
 
 const env = Config.app.env
 const port = Config.app.port
@@ -22,7 +22,13 @@ app.use(bodyParser.urlencoded({ limit, extended: false }))
 app.use(bodyParser.json({ limit }))
 app.use(rateLimit(rateLimitOptions))
 
-Controller(app)
+Router(app)
+
+app.use(function (err, req, res, next) {
+    console.error(err)
+    // res.status(500).json({ error: 'Internal Server Error' })
+    res.status(500).json(err)
+})
 
 app.use(function (req, res, next) {
     res.status(404).send({ error: true, status: 404, message: 'URL not found' })
