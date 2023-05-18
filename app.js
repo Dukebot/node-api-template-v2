@@ -12,8 +12,9 @@ const port = Config.app.port
 const corsOptions = {}
 const rateLimitOptions = Config.rateLimit
 const limit = '50mb'
+const databaseConnectionUrl = Config.database.url + '/' + Config.database.name
 
-console.log('App starting...', { env, port, corsOptions, rateLimitOptions, limit })
+console.log('App starting...', { env, port, corsOptions, rateLimitOptions, limit, databaseConnectionUrl })
 
 const app = express()
 
@@ -34,7 +35,7 @@ app.use(function (req, res, next) {
     res.status(404).send({ error: true, status: 404, message: 'URL not found' })
 })
 
-mongoose.connect('mongodb://127.0.0.1:27017/test').then(() => {
+mongoose.connect(databaseConnectionUrl).then(() => {
     console.log('Mongoose connected')
 })
 
