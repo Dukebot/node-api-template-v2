@@ -1,23 +1,16 @@
+const Controller = require('./controller')
+const Model = require('../models/item')
+
+const baseRoute = '/item'
+
 function ItemController(app) {
-    app.get('/item', function (req, res) {
+    const controller = new Controller(baseRoute, Model)
 
-    })
-
-    app.get('/item/:id', function (req, res) {
-        
-    })
-
-    app.put('/item', function (req, res) {
-        
-    })
-
-    app.post('/item', function (req, res) {
-        
-    })
-
-    app.delete('/item/:id', function (req, res) {
-        
-    })
+    app.get(baseRoute, controller.get.bind(controller))
+    app.get(baseRoute + '/:id', controller.getById.bind(controller))
+    app.post(baseRoute, controller.create.bind(controller))
+    app.put(baseRoute, controller.update.bind(controller))
+    app.delete(baseRoute + '/:id', controller.delete.bind(controller))
 }
 
 module.exports = ItemController
